@@ -597,23 +597,22 @@ VL53L0_Error VL53L010_StaticInit(VL53L0_DEV Dev)
 
 	LOG_FUNCTION_START("");
 
-    /* Set I2C standard mode */
-    if (Status == VL53L0_ERROR_NONE)
-        Status = VL53L0_WrByte(Dev, 0x88, 0x00);
+	/* Set I2C standard mode */
+	if (Status == VL53L0_ERROR_NONE)
+		Status = VL53L0_WrByte(Dev, 0x88, 0x00);
 
 	/* this function do nothing if it has been called before */
 	Status = VL53L010_get_info_from_device(Dev);
 
-	if (Status == VL53L0_ERROR_NONE) {
-        Revision = VL53L010_GETDEVICESPECIFICPARAMETER(Dev, Revision);
-    }
+	if (Status == VL53L0_ERROR_NONE)
+		Revision = VL53L010_GETDEVICESPECIFICPARAMETER(Dev, Revision);
 
-    if (Status == VL53L0_ERROR_NONE) {
+	if (Status == VL53L0_ERROR_NONE) {
 		if (Revision == 0)
 			Status = VL53L010_load_additional_settings1(Dev);
 	}
 
-    /* update13_05_15 */
+	/* update13_05_15 */
 	if (Status == VL53L0_ERROR_NONE) {
 		if ((Revision <= 34) && (Revision != 32)) {
 
@@ -632,11 +631,11 @@ VL53L0_Error VL53L010_StaticInit(VL53L0_DEV Dev)
 		}
 	}
 
-    /* update 17_06_15_v10 */
+	/* update 17_06_15_v10 */
 	if (Status == VL53L0_ERROR_NONE)
 		Status = VL53L010_load_tuning_settings(Dev);
 
-    /* check if GO1 power is ON after load default tuning */
+	/* check if GO1 power is ON after load default tuning */
 	if (Status == VL53L0_ERROR_NONE) {
 		Status = VL53L0_RdByte(Dev, 0x80, &TempByte);
 		if ((TempByte != 0) && (Status == VL53L0_ERROR_NONE)) {
@@ -645,7 +644,7 @@ VL53L0_Error VL53L010_StaticInit(VL53L0_DEV Dev)
 		}
 	}
 
-    /* Set interrupt config to new sample ready */
+	/* Set interrupt config to new sample ready */
 	if (Status == VL53L0_ERROR_NONE) {
 		Status = VL53L010_SetGpioConfig(Dev, 0, 0,
 			VL53L010_REG_SYSTEM_INTERRUPT_GPIO_NEW_SAMPLE_READY,
@@ -2040,7 +2039,7 @@ VL53L0_Error VL53L010_GetRangingMeasurementData(VL53L0_DEV Dev,
 {
 	VL53L0_Error Status = VL53L0_ERROR_NONE;
 	uint8_t DeviceRangeStatus;
-	uint8_t PalRangeStatus = 0; //LGE_CHANGE
+	uint8_t PalRangeStatus;
 	uint16_t AmbientRate;
 	FixPoint1616_t SignalRate;
 	FixPoint1616_t CrosstalkCompensation;

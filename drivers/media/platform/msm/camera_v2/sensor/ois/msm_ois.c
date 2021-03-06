@@ -38,7 +38,6 @@ DEFINE_MSM_MUTEX(msm_ois_mutex);
 	#endif
 #endif
 
-#ifdef CONFIG_LG_OIS
 #if defined(CONFIG_MACH_MSM8996_LUCYE)
 static struct msm_ois_ctrl_t *local_msm_ois_t;
 uint16_t cal_ver = 0;
@@ -70,7 +69,6 @@ extern void lc898122a_af_vcm_code(int16_t UsVcmCod);
 
 
 static struct msm_ois_ctrl_t *local_msm_ois_t;
-#endif
 #endif
 
 static struct v4l2_file_operations msm_ois_v4l2_subdev_fops;
