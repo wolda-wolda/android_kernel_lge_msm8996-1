@@ -1,5 +1,5 @@
 /*******************************************************************************
- Copyright ï¿½ 2016, STMicroelectronics International N.V.
+ Copyright © 2016, STMicroelectronics International N.V.
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -2186,8 +2186,8 @@ VL53L0_Error VL53L0_CheckAndLoadInterruptSettings(VL53L0_DEV Dev,
 	uint8_t StartNotStopFlag)
 {
 	uint8_t InterruptConfig;
-	FixPoint1616_t ThresholdLow;
-	FixPoint1616_t ThresholdHigh;
+	FixPoint1616_t ThresholdLow = 0;
+	FixPoint1616_t ThresholdHigh = 0;
 	VL53L0_Error Status = VL53L0_ERROR_NONE;
 
 	InterruptConfig = VL53L0_GETDEVICESPECIFICPARAMETER(Dev,
