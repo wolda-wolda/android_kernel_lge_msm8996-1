@@ -840,6 +840,16 @@ static irqreturn_t msm_cpp_irq(int irq_num, void *data)
 	if (irq_status & 0x8) {
 		tx_level = msm_camera_io_r(cpp_dev->base +
 			MSM_CPP_MICRO_FIFO_TX_STAT) >> 2;
+//LGE_CHANGE
+#if 1
+		for (i = 0; i < tx_level; i++) {
+			tx_fifo[i] = msm_camera_io_r(cpp_dev->base +
+				MSM_CPP_MICRO_FIFO_TX_DATA);
+		}
+		if (tx_level >= MSM_CPP_TX_FIFO_LEVEL) {
+			pr_err("Fatal invalid tx level %d", tx_level);
+		}
+#else
 		if (tx_level < MSM_CPP_TX_FIFO_LEVEL) {
 			for (i = 0; i < tx_level; i++) {
 				tx_fifo[i] = msm_camera_io_r(cpp_dev->base +
@@ -849,6 +859,8 @@ static irqreturn_t msm_cpp_irq(int irq_num, void *data)
 			pr_err("Fatal invalid tx level %d", tx_level);
 			goto err;
 		}
+#endif
+//LGE_CHANGE
 		spin_lock_irqsave(&cpp_dev->tasklet_lock, flags);
 		queue_cmd = &cpp_dev->tasklet_queue_cmd[cpp_dev->taskletq_idx];
 		if (queue_cmd->cmd_used) {
@@ -902,7 +914,7 @@ static irqreturn_t msm_cpp_irq(int irq_num, void *data)
 		pr_debug("DEBUG_R1: 0x%x\n",
 			msm_camera_io_r(cpp_dev->base + 0x8C));
 	}
-err:
+//err:  //LGE_CHANGE
 	msm_camera_io_w(irq_status, cpp_dev->base + MSM_CPP_MICRO_IRQGEN_CLR);
 	return IRQ_HANDLED;
 }
